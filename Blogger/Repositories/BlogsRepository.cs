@@ -21,9 +21,9 @@ namespace Blogger.Repositories
       FROM blogs b 
       JOIN accounts a ON b.creatorId = a.id
       ";
-      return _db.Query<Account, Blog, Blog>(sql, (account, blog) =>
+      return _db.Query<Profile, Blog, Blog>(sql, (profile, blog) =>
       {
-          blog.Creator = account;
+          blog.Creator = profile;
           return blog;
       }, splitOn: "id").ToList();
     }
@@ -37,9 +37,9 @@ namespace Blogger.Repositories
       WHERE b.id = @id
       ";
       // REVIEW what is this new thing? Why are we returning something new?
-      return _db.Query<Account, Blog, Blog>(sql, (account, blog) =>
+      return _db.Query<Profile, Blog, Blog>(sql, (profile, blog) =>
       {
-          blog.Creator = account;
+          blog.Creator = profile;
           return blog;
       }, new { id }, splitOn: "id").FirstOrDefault();
     }

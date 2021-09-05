@@ -12,6 +12,6 @@ public class Blog
         public string ImgUrl { get; set; } = "https://via.placeholder.com/150";
         public bool Published { get; set; }
         public string CreatorId { get; set; }
-        public Account Creator { get; set; }
+        public Profile Creator { get; set; }
     }
 }
