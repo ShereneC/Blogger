@@ -47,5 +47,15 @@ namespace Blogger.Services
       return _repo.EditBlog(updatedBlog);
 
     }
+
+    internal void DeleteBlog(int blogId, string userId)
+    {
+      Blog blogToDelete = GetBlogById(blogId);
+      if (blogToDelete.CreatorId != userId)
+      {
+        throw new Exception("This is not your blog to delete");
+      }
+      _repo.DeleteBlog(blogId);
+    }
   }
 }

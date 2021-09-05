@@ -74,7 +74,13 @@ namespace Blogger.Repositories
       // return updatedBlog;
       // is it as simple as...
       return GetBlogById(updatedBlog.Id);
-      // this will return an object of type Blog, right?
+      // this will return an object of type Blog, right? Yes, it worked!!!!
+    }
+
+    internal void DeleteBlog(int id)
+    {
+      string sql = "DELETE FROM blogs WHERE id = @id LIMIT 1";
+      _db.Execute(sql, new { id });
     }
   }
 }

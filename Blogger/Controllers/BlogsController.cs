@@ -84,5 +84,22 @@ namespace Blogger.Controllers
             return BadRequest(err.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<String>> DeleteBlog(int id)
+        {
+            try
+            {
+                 // NEVER TRUST THE CLIENT TO TELL YOU WHO THEY ARE
+                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                 _bs.DeleteBlog(id, userInfo.Id);
+                 return Ok("Blog has been deleted");
+            }
+            catch (Exception err)
+            {
+            return BadRequest(err.Message);
+            }
+        }
     }
 }
