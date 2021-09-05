@@ -57,5 +57,24 @@ namespace Blogger.Repositories
       int id = _db.ExecuteScalar<int>(sql, newBlog);
       return GetBlogById(id);
     }
+
+    internal Blog EditBlog(Blog updatedBlog)
+    {
+      string sql = @"
+      UPDATE blogs
+      SET
+          title = @Title,
+          body = @Body,
+          imgUrl =@ImgUrl,
+          published =@Published
+      WHERE id = @Id;
+      ";
+      _db.Execute(sql, updatedBlog);
+      // REVIEW I think this is another instance of returning what we just sent in, when we need to do a get and return the actually updated whole blog.  
+      // return updatedBlog;
+      // is it as simple as...
+      return GetBlogById(updatedBlog.Id);
+      // this will return an object of type Blog, right?
+    }
   }
 }

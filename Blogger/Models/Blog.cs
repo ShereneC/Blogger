@@ -6,7 +6,7 @@ public class Blog
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(20)]
+        [MaxLength(60)]
         public string Title { get; set; }
         public string Body { get; set; }
         public string ImgUrl { get; set; } = "https://via.placeholder.com/150";

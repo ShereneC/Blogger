@@ -65,5 +65,24 @@ namespace Blogger.Controllers
                 return BadRequest(err.Message);
             }
         }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Blog>> EditBlog([FromBody] Blog updatedBlog, int id)
+        {
+            try
+            {
+                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                 updatedBlog.Id = id;
+                 updatedBlog.CreatorId = userInfo.Id;
+                 Blog blog = _bs.EditBlog(updatedBlog, userInfo.Id);
+                 blog.Creator = userInfo;
+                 //need to call get by id right here to return the updated blog
+                 return Ok(blog);
+            }
+            catch (Exception err)
+            {
+            return BadRequest(err.Message);
+            }
+        }
     }
 }
