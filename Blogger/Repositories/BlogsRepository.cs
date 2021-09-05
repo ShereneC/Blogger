@@ -17,9 +17,15 @@ namespace Blogger.Repositories
     internal List<Blog> GetAllBlogs()
     {
       string sql = @"
-      SELECT * FROM blogs
+      SELECT a.*, b.*
+      FROM blogs b 
+      JOIN accounts a ON b.creatorId = a.id
       ";
-      return _db.Query<Blog>(sql).ToList();
+      return _db.Query<Account, Blog, Blog>(sql, (account, blog) =>
+      {
+          blog.Creator = account;
+          return blog;
+      }, splitOn: "id").ToList();
     }
 
     internal Blog GetBlogById(int id)
@@ -31,10 +37,10 @@ namespace Blogger.Repositories
       WHERE b.id = @id
       ";
       // REVIEW what is this new thing? Why are we returning something new?
-      return _db.Query<Account, Blog, Blog>(sql, (account, Blog) =>
+      return _db.Query<Account, Blog, Blog>(sql, (account, blog) =>
       {
-          Blog.Creator = account;
-          return Blog;
+          blog.Creator = account;
+          return blog;
       }, new { id }, splitOn: "id").FirstOrDefault();
     }
 
