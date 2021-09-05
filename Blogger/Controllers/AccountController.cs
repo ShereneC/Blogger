@@ -11,17 +11,19 @@ namespace Blogger.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+        [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly BlogsService _bs;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, BlogsService blogsService)
         {
             _accountService = accountService;
+            _bs = blogsService;
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<Account>> Get()
         {
             try
@@ -32,6 +34,21 @@ namespace Blogger.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{blogs}")]
+        public async Task<ActionResult<List<Blog>>> GetBlogsByCreatorId()
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                 List<Blog> blogs = _bs.GetBlogsByCreatorId(userInfo.Id);
+                 return Ok(blogs);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
             }
         }
     }

@@ -27,6 +27,21 @@ namespace Blogger.Repositories
           return blog;
       }, splitOn: "id").ToList();
     }
+// REVIEW only example I can find of this is on EventsRepo (Tower), but it does not get called from anywhere, I don't think it was every used, so don't know if I set this up along the way correctly. 
+    internal List<Blog> GetBlogsByCreatorId(string id)
+    {
+      string sql = @"
+      SELECT a.*, b.*
+      FROM blogs b 
+      JOIN accounts a ON b.creatorId = a.id
+      WHERE b.creatorId = @id
+      ";
+      return _db.Query<Profile, Blog, Blog>(sql, (Profile, blog) =>
+      {
+        blog.Creator = Profile;
+        return blog;
+      }, new { id }, splitOn: "id").ToList();
+    }
 
     internal Blog GetBlogById(int id)
     {

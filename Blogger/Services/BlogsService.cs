@@ -17,6 +17,10 @@ namespace Blogger.Services
       return _repo.GetAllBlogs();
     }
 
+    internal List<Blog> GetBlogsByCreatorId(string id)
+    {
+      return _repo.GetBlogsByCreatorId(id);
+    }
     internal Blog GetBlogById(int id)
     {
       Blog blog = _repo.GetBlogById(id);
@@ -47,6 +51,7 @@ namespace Blogger.Services
       return _repo.EditBlog(updatedBlog);
 
     }
+
 
     internal void DeleteBlog(int blogId, string userId)
     {
