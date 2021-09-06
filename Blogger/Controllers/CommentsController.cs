@@ -56,5 +56,22 @@ namespace Blogger.Controllers
                 return BadRequest(err.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+
+        public async Task<ActionResult<String>> DeleteComment (int id)
+        {
+            try
+            {
+                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                 _cs.DeleteComment(id, userInfo.Id);
+                 return Ok("Comment has been deleted");
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
     }
 }

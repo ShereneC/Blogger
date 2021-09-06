@@ -63,5 +63,11 @@ namespace Blogger.Repositories
       _db.Execute(sql, updatedComment);
       return GetCommentById(updatedComment.Id);
     }
+
+    internal void DeleteComment(int id)
+    {
+      string sql = "DELETE FROM comments WHERE id = @id LIMIT 1";
+      _db.Execute(sql, new { id });
+    }
   }
 }

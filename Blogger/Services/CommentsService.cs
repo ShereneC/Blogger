@@ -43,5 +43,15 @@ namespace Blogger.Services
       updatedComment.Body = updatedComment.Body != null ? updatedComment.Body : original.Body;
       return _repo.EditComment(updatedComment);
     }
+
+    internal void DeleteComment(int commentId, string userId)
+    {
+      Comment commentToDelete = GetCommentById(commentId);
+      if (commentToDelete.CreatorId != userId)
+      {
+        throw new Exception("Not your comment to delete");
+      }
+      _repo.DeleteComment(commentId);
+    }
   }
 }
