@@ -28,6 +28,16 @@ namespace Blogger.Repositories
       }, new { id }, splitOn: "id").ToList();
     }
 
+    internal Comment GetCommentById(int id)
+    {
+      string sql = @"
+      SELECT *
+      FROM comments
+      WHERE id = @id
+      ";
+      return _db.QueryFirstOrDefault<Comment>(sql, new { id });
+    }
+
     internal Comment CreateComment(Comment newComment)
     {
       string sql = @"
@@ -40,6 +50,18 @@ namespace Blogger.Repositories
       // REVIEW what does the above and below line do?
       int id = _db.ExecuteScalar<int>(sql, newComment);
       return newComment;
+    }
+
+    internal Comment EditComment(Comment updatedComment)
+    {
+      string sql = @"
+      UPDATE comments
+      SET
+          body = @Body
+      WHERE id = @Id;
+      ";
+      _db.Execute(sql, updatedComment);
+      return GetCommentById(updatedComment.Id);
     }
   }
 }

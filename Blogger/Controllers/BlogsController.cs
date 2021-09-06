@@ -92,9 +92,9 @@ namespace Blogger.Controllers
                  updatedBlog.Id = id;
                  updatedBlog.CreatorId = userInfo.Id;
                  Blog blog = _bs.EditBlog(updatedBlog, userInfo.Id);
-                 // what does the following line do?
+                 // REVIEW what does the following line do?
                  blog.Creator = userInfo;
-                 //need to call get by id right here to return the updated blog
+                 // REVIEW need to call get by id right here to return the updated blog
                  return Ok(blog);
             }
             catch (Exception err)

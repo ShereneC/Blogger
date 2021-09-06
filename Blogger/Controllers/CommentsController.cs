@@ -36,5 +36,25 @@ namespace Blogger.Controllers
                 return BadRequest(err.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Comment>> EditComment([FromBody] Comment updatedComment, int id)
+        {
+            try
+            {
+                 Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                 updatedComment.Id = id;
+                 updatedComment.CreatorId = userInfo.Id;
+                 Comment comment = _cs.EditComment(updatedComment, userInfo.Id);
+                 comment.Creator = userInfo;
+                 // REVIEW do i need to call getCommentsByBlogId right here?
+                 return Ok(comment);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
     }
 }
