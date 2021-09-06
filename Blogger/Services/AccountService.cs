@@ -29,6 +29,7 @@ namespace Blogger.Services
             return profile;
         }
 
+// REVIEW I did not write this - already in template. 
         internal Account Edit(Account editData, string userEmail)
         {
             Account original = GetProfileByEmail(userEmail);

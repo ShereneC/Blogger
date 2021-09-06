@@ -11,7 +11,7 @@ namespace Blogger.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-        [Authorize]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
@@ -51,6 +51,25 @@ namespace Blogger.Controllers
                 return BadRequest(err.Message);
             }
         }
+
+        [HttpPut]
+        // I did write this, but it is not working, when I try to edit the name of the account, in postman it says ""Object reference not set to an instance of an object.""
+        public async Task<ActionResult<Account>> Edit([FromBody] Account updatedAccount)
+        {
+            try
+            {
+            Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+            updatedAccount.Id = userInfo.Id;
+            Account account = _accountService.Edit(updatedAccount, userInfo.Email);
+            return Ok(account);
+            }
+            catch (Exception err)
+            {
+            return BadRequest(err.Message);
+            }
+
+        }
+
     }
 
 

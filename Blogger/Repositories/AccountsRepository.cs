@@ -35,7 +35,7 @@ namespace Blogger.Repositories
             _db.Execute(sql, newAccount);
             return newAccount;
         }
-
+// REVIEW I did not write this - already in template.  Does it need to be changed to profiles in order to work? (instead of accounts) Because account only has email on it - the profile has name, picture  Does another table need to be created called profiles?  He did not show us this in class.
         internal Account Edit(Account update)
         {
             string sql = @"
