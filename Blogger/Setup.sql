@@ -18,3 +18,14 @@ CREATE TABLE blogs(
   creatorId varchar(255) NOT NULL CoMMENT 'Account Id of Creator',
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
+
+CREATE TABLE comments(
+  id int NOT NULL AUTO_INCREMENT primary key COMMENT 'primary key',
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  body varchar(255) COMMENT 'Comment Body',
+  blogId int NOT NULL COMMENT 'Blog Id of Comment',
+  FOREIGN KEY (blogId) REFERENCES blogs(id) ON DELETE CASCADE,
+  creatorId varchar(255) NOT NULL COMMENT 'Account Id of Creator',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';

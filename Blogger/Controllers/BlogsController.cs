@@ -15,9 +15,11 @@ namespace Blogger.Controllers
     public class BlogsController : ControllerBase
     {
         private readonly BlogsService _bs;
-        public BlogsController(BlogsService bs)
+        private readonly CommentsService _cs;
+        public BlogsController(BlogsService bs, CommentsService cs)
         {
             _bs =bs;
+            _cs =cs;
         }
 
         [HttpGet]
@@ -41,6 +43,21 @@ namespace Blogger.Controllers
             {
                  Blog blog = _bs.GetBlogById(id);
                  return Ok(blog);
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
+            }
+        }
+
+                [HttpGet("{id}/comments")]
+        public ActionResult<List<Comment>> GetCommentsByBlogId(int id)
+        // above how does it get this int id??? It pulls it out of the url path, right???
+        {
+            try
+            {
+                 List<Comment> comments = _cs.GetCommentsByBlogId(id);
+                 return Ok(comments);
             }
             catch (Exception err)
             {

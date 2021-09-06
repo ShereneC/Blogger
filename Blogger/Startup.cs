@@ -39,6 +39,8 @@ namespace Blogger
             //Transients
             services.AddTransient<BlogsService>();
             services.AddTransient<BlogsRepository>();
+            services.AddTransient<CommentsService>();
+            services.AddTransient<CommentsRepository>();
         }
 
         private void ConfigureCors(IServiceCollection services)
